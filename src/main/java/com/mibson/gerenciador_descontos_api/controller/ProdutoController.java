@@ -1,14 +1,14 @@
 package com.mibson.gerenciador_descontos_api.controller;
 
+import com.mibson.gerenciador_descontos_api.dto.ProdutoDigitalRequest;
+import com.mibson.gerenciador_descontos_api.dto.ProdutoFisicoRequest;
+import com.mibson.gerenciador_descontos_api.dto.ProdutoResponse;
 import com.mibson.gerenciador_descontos_api.model.Produto;
-import com.mibson.gerenciador_descontos_api.model.ProdutoFisico;
 import com.mibson.gerenciador_descontos_api.service.ProdutoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,9 +22,14 @@ public class ProdutoController {
         return produtoService.listarTodos();
     }
 
-    @PostMapping
-    public Produto salvarProduto (@RequestBody @Valid Produto produto) {
-        return produtoService.save(produto);
+    @PostMapping("/fisico")
+    public ResponseEntity<ProdutoResponse> salvarProdutoFisico(@RequestBody @Valid ProdutoFisicoRequest produto) {
+        return ResponseEntity.ok(produtoService.salvarProdutoFisico(produto));
+    }
+
+    @PostMapping("/digital")
+    public ResponseEntity<ProdutoResponse> salvarProdutoDigital(@RequestBody @Valid ProdutoDigitalRequest produto) {
+        return ResponseEntity.ok(produtoService.salvarProdutoDigital(produto));
     }
 
     @PatchMapping("/desconto")

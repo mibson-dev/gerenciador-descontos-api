@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProdutoDigital extends Produto {
 
-    public ProdutoDigital(Long id, String nome, double precoBase) {
+    public ProdutoDigital(String nome, double precoBase) {
         super(null, nome, precoBase);
     }
 }
