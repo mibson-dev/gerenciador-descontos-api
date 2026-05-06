@@ -1,5 +1,6 @@
 package com.mibson.gerenciador_descontos_api.exceptions;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,11 @@ public class RestExceptionHandler{
     @ExceptionHandler(TaxaFreteInvalidaException.class)
     public ResponseEntity<String> taxaFreteInvalida(TaxaFreteInvalidaException taxaFreteInvalidaException) {
         return ResponseEntity.badRequest().body(taxaFreteInvalidaException.getMessage());
+    }
+
+    @ExceptionHandler(ProdutoNaoEncontradoException.class)
+    public ResponseEntity<String> produtoNaoEncontrado(ProdutoNaoEncontradoException produtoNaoEncontradoException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(produtoNaoEncontradoException.getMessage());
     }
 
 }

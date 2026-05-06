@@ -4,6 +4,7 @@ import com.mibson.gerenciador_descontos_api.model.Produto;
 import com.mibson.gerenciador_descontos_api.model.ProdutoFisico;
 import com.mibson.gerenciador_descontos_api.service.ProdutoService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,5 +28,10 @@ public class ProdutoController {
     @PatchMapping("/desconto")
     public void atualizarDesconto(@RequestBody double desconto) {
         produtoService.setDescontoGlobal(desconto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(produtoService.buscarPorId(id));
     }
 }
