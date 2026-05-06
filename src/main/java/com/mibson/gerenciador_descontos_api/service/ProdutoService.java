@@ -1,5 +1,6 @@
 package com.mibson.gerenciador_descontos_api.service;
 
+import com.mibson.gerenciador_descontos_api.dto.PrecoFinalResponse;
 import com.mibson.gerenciador_descontos_api.dto.ProdutoDigitalRequest;
 import com.mibson.gerenciador_descontos_api.dto.ProdutoFisicoRequest;
 import com.mibson.gerenciador_descontos_api.dto.ProdutoResponse;
@@ -11,9 +12,7 @@ import com.mibson.gerenciador_descontos_api.model.ProdutoFisico;
 import com.mibson.gerenciador_descontos_api.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +28,12 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
-    public double calcularPrecoFinal(Produto produto) {
-        return produto.getPrecoBase() - (produto.getPrecoBase() * descontoGlobal);
+    public PrecoFinalResponse calcularPrecoFinal(Long id) {
+        Produto produto = buscarPorId(id);
+
+        double descontoAplicado = produto.getPrecoBase() - (produto.getPrecoBase() * descontoGlobal);
+
+        return new PrecoFinalResponse(produto.getNome(), descontoAplicado);
     }
 
     public Produto buscarPorId(Long id) {
@@ -42,16 +45,14 @@ public class ProdutoService {
         ProdutoFisico produtoFisico = new ProdutoFisico(request.nome(), request.precoBase(), request.taxaFrete());
         produtoRepository.save(produtoFisico);
 
-        ProdutoResponse responseFisico = new ProdutoResponse(produtoFisico.getId(), produtoFisico.getNome(), produtoFisico.getPrecoBase(), "FISICO");
-        return responseFisico;
+        return new ProdutoResponse(produtoFisico.getId(), produtoFisico.getNome(), produtoFisico.getPrecoBase(), "FISICO");
     }
 
     public ProdutoResponse salvarProdutoDigital(ProdutoDigitalRequest request) {
         ProdutoDigital produtoDigital = new ProdutoDigital(request.nome(), request.precoBase());
         produtoRepository.save(produtoDigital);
 
-        ProdutoResponse respondeDigital = new ProdutoResponse(produtoDigital.getId(), produtoDigital.getNome(), produtoDigital.getPrecoBase(), "DIGITAL");
-        return respondeDigital;
+        return new ProdutoResponse(produtoDigital.getId(), produtoDigital.getNome(), produtoDigital.getPrecoBase(), "DIGITAL");
     }
 
     public void setDescontoGlobal(double descontoGlobal) {

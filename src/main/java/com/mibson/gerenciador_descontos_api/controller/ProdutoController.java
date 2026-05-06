@@ -1,5 +1,6 @@
 package com.mibson.gerenciador_descontos_api.controller;
 
+import com.mibson.gerenciador_descontos_api.dto.PrecoFinalResponse;
 import com.mibson.gerenciador_descontos_api.dto.ProdutoDigitalRequest;
 import com.mibson.gerenciador_descontos_api.dto.ProdutoFisicoRequest;
 import com.mibson.gerenciador_descontos_api.dto.ProdutoResponse;
@@ -40,5 +41,10 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable Long id) {
         return ResponseEntity.ok(produtoService.buscarPorId(id));
+    }
+
+    @GetMapping("/{id}/preco")
+    public ResponseEntity<PrecoFinalResponse> calcularPrecoProduto(@PathVariable Long id) {
+        return ResponseEntity.ok(produtoService.calcularPrecoFinal(id));
     }
 }
