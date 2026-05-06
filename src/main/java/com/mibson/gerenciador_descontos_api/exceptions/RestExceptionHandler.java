@@ -2,6 +2,7 @@ package com.mibson.gerenciador_descontos_api.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -31,6 +32,11 @@ public class RestExceptionHandler{
     @ExceptionHandler(ProdutoNaoEncontradoException.class)
     public ResponseEntity<String> produtoNaoEncontrado(ProdutoNaoEncontradoException produtoNaoEncontradoException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(produtoNaoEncontradoException.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> validacaoNaoConfirmada(MethodArgumentNotValidException methodArgumentNotValidException) {
+        return ResponseEntity.badRequest().body(methodArgumentNotValidException.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
     }
 
 }

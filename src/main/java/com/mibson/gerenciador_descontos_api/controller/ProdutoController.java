@@ -3,8 +3,10 @@ package com.mibson.gerenciador_descontos_api.controller;
 import com.mibson.gerenciador_descontos_api.model.Produto;
 import com.mibson.gerenciador_descontos_api.model.ProdutoFisico;
 import com.mibson.gerenciador_descontos_api.service.ProdutoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public Produto salvarProduto (@RequestBody Produto produto) {
+    public Produto salvarProduto (@RequestBody @Valid Produto produto) {
         return produtoService.save(produto);
     }
 

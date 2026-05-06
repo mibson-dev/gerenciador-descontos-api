@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.mibson.gerenciador_descontos_api.exceptions.NomeInvalidoException;
 import com.mibson.gerenciador_descontos_api.exceptions.PrecoInvalidoException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 @Entity
@@ -23,23 +25,10 @@ public abstract class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Digite um nome válido")
     private String nome;
+
+    @PositiveOrZero(message = "Preço do produto inválido.")
     private double precoBase;
-
-
-    public void setNome(String nome) {
-        if (nome == null || nome.isBlank()) {
-            throw new NomeInvalidoException("Digite um nome válido");
-        } else {
-            this.nome = nome;
-        }
-    }
-
-    public void setPrecoBase(double precoBase) {
-        if (precoBase < 0) {
-            throw new PrecoInvalidoException("Preço do produto inválido.");
-        } else {
-            this.precoBase = precoBase;
-        }
-    }
 }
